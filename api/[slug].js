@@ -1,37 +1,16 @@
-import { Redis } from '@upstash/redis';
+import { Redis } from '@upstash/redis'
+const r = Redis.fromEnv()
 
-// Initialize Redis client using environment variables
-const redis = Redis.fromEnv();
-
-export default async function handler(req, res) {
-    if (req.method !== 'GET') {
-        return res.status(405).json({ error: 'Method not allowed' });
-    }
-
-    // Get the slug from the URL path
-    const { slug } = req.query;
-
-    if (!slug) {
-        return res.status(400).json({ error: 'Slug is required' });
-    }
-
+export default async function (req, res) {
+    if (req.method != 'GET') return res.status(405).json({ error: 'Method not allowed' })
+    const { slug } = req.query
+    if (!slug) return res.status(400).json({ error: 'Missing slug' })
     try {
-        const data = await redis.get(`url:${slug}`);
-
-        if (!data) {
-            return res.status(404).json({ error: 'URL not found' });
-        }
-
-        const parsed = typeof data === 'string' ? JSON.parse(data) : data;
-
-        // Update click count
-        parsed.clicks = (parsed.clicks || 0) + 1;
-        await redis.set(`url:${slug}`, JSON.stringify(parsed));
-
-        // Redirect to the original URL
-        return res.redirect(302, parsed.url);
-    } catch (error) {
-        console.error('Redirect error:', error);
-        return res.status(500).json({ error: 'Error processing redirect' });
-    }
+        const d = await r.get('url:' + slug)
+        if (!d) return res.status(404).json({ error: 'Not found' })
+        const p = typeof d == 'string' ? JSON.parse(d) : d
+        p.clicks = (p.clicks || 0) + 1
+        await r.set('url:' + slug, JSON.stringify(p))
+        return res.redirect(302, p.url)
+    } catch (e) { console.error(e); return res.status(500).json({ error: 'Error' }) }
 }

@@ -1,94 +1,23 @@
-const form = document.getElementById('shorten-form');
-const urlInput = document.getElementById('url-input');
-const customToggle = document.getElementById('custom-toggle');
-const customSlugGroup = document.getElementById('custom-slug-group');
-const customSlugInput = document.getElementById('custom-slug');
-const submitBtn = document.getElementById('submit-btn');
-const resultDiv = document.getElementById('result');
-const shortUrlLink = document.getElementById('short-url');
-const copyBtn = document.getElementById('copy-btn');
-const errorDiv = document.getElementById('error');
+const f = document.getElementById('shorten-form'), u = document.getElementById('url-input'), t = document.getElementById('custom-toggle'), g = document.getElementById('custom-slug-group'), s = document.getElementById('custom-slug'), b = document.getElementById('submit-btn'), r = document.getElementById('result'), l = document.getElementById('short-url'), c = document.getElementById('copy-btn'), e = document.getElementById('error');
 
-// Toggle custom slug input
-customToggle.addEventListener('change', () => {
-    customSlugGroup.classList.toggle('visible', customToggle.checked);
-    if (!customToggle.checked) {
-        customSlugInput.value = '';
-    }
-});
+t.onchange = () => { g.classList.toggle('visible', t.checked); if (!t.checked) s.value = '' }
 
-// Form submission
-form.addEventListener('submit', async (e) => {
-    e.preventDefault();
-
-    // Reset states
-    resultDiv.classList.remove('visible');
-    errorDiv.classList.remove('visible');
-    submitBtn.disabled = true;
-    submitBtn.textContent = 'Shortening...';
-
-    const longUrl = urlInput.value.trim();
-    const customSlug = customSlugInput.value.trim();
-
+f.onsubmit = async ev => {
+    ev.preventDefault();
+    r.classList.remove('visible'); e.classList.remove('visible');
+    b.disabled = 1; b.textContent = '...';
     try {
-        const response = await fetch('/api/shorten', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({
-                url: longUrl,
-                customSlug: customSlug || undefined
-            })
-        });
+        const res = await fetch('/api/shorten', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ url: u.value.trim(), customSlug: s.value.trim() || undefined }) });
+        const d = await res.json();
+        if (!res.ok) throw new Error(d.error || 'Failed');
+        l.href = d.shortUrl; l.textContent = d.shortUrl;
+        r.classList.add('visible');
+        u.value = ''; s.value = ''; t.checked = 0; g.classList.remove('visible')
+    } catch (err) { e.textContent = err.message; e.classList.add('visible') }
+    finally { b.disabled = 0; b.textContent = 'Shorten' }
+}
 
-        const data = await response.json();
-
-        if (!response.ok) {
-            throw new Error(data.error || 'Failed to shorten URL');
-        }
-
-        // Show result
-        shortUrlLink.href = data.shortUrl;
-        shortUrlLink.textContent = data.shortUrl;
-        resultDiv.classList.add('visible');
-
-        // Reset form
-        urlInput.value = '';
-        customSlugInput.value = '';
-        customToggle.checked = false;
-        customSlugGroup.classList.remove('visible');
-
-    } catch (error) {
-        errorDiv.textContent = error.message;
-        errorDiv.classList.add('visible');
-    } finally {
-        submitBtn.disabled = false;
-        submitBtn.textContent = 'Shorten URL';
-    }
-});
-
-// Copy to clipboard
-copyBtn.addEventListener('click', async () => {
-    try {
-        await navigator.clipboard.writeText(shortUrlLink.href);
-        copyBtn.textContent = 'Copied!';
-        copyBtn.classList.add('copied');
-        setTimeout(() => {
-            copyBtn.textContent = 'Copy';
-            copyBtn.classList.remove('copied');
-        }, 2000);
-    } catch (err) {
-        // Fallback for older browsers
-        const textArea = document.createElement('textarea');
-        textArea.value = shortUrlLink.href;
-        document.body.appendChild(textArea);
-        textArea.select();
-        document.execCommand('copy');
-        document.body.removeChild(textArea);
-        copyBtn.textContent = 'Copied!';
-        copyBtn.classList.add('copied');
-        setTimeout(() => {
-            copyBtn.textContent = 'Copy';
-            copyBtn.classList.remove('copied');
-        }, 2000);
-    }
-});
+c.onclick = async () => {
+    try { await navigator.clipboard.writeText(l.href) } catch { const x = document.createElement('textarea'); x.value = l.href; document.body.appendChild(x); x.select(); document.execCommand('copy'); document.body.removeChild(x) }
+    c.textContent = 'Copied!'; c.classList.add('copied'); setTimeout(() => { c.textContent = 'Copy'; c.classList.remove('copied') }, 1500)
+}
