@@ -12,7 +12,12 @@
 <body>
     <div class="container">
         <header>
-            <h1>Shorten a link</h1>
+            <div style="display:flex;justify-content:space-between;align-items:center">
+                <h1>Shorten a link</h1>
+                <button id="theme-toggle"
+                    style="background:none;border:1px solid #e5e5e5;border-radius:6px;padding:6px 10px;cursor:pointer;font-size:14px"
+                    onclick="document.body.classList.toggle('dark');localStorage.setItem('theme',document.body.classList.contains('dark')?'dark':'light')">🌙</button>
+            </div>
             <p class="tagline">Paste a long URL and get a short one</p>
         </header>
 
@@ -49,7 +54,7 @@
         </main>
 
         <footer>
-            <p>Free to use</p>
+            <p>Free to use • <a href="/docs.html" style="color:#2563eb;text-decoration:none">Documentation</a></p>
         </footer>
     </div>
 
@@ -63,12 +68,8 @@
     </a>
 
     <script src="/app.js"></script>
+    <script>if (localStorage.getItem('theme') === 'dark') document.body.classList.add('dark')</script>
 </body>
-<i>made by mrbingo12345 on discord</i>
-<style>
-    i {
-        text-align: center;
-    }
-</style>
+<i style="position:fixed;bottom:20px;left:20px;font-size:12px;color:#999">made by mrbingo12345 on discord</i>
 
 </html>

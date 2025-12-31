@@ -224,3 +224,49 @@ footer p {
         width: 100%
     }
 }
+
+body.dark {
+    background: #0a0a0a;
+    color: #e5e5e5
+}
+
+body.dark .card {
+    background: #1a1a1a;
+    border-color: #333
+}
+
+body.dark input[type="url"],
+body.dark input[type="text"] {
+    background: #0a0a0a;
+    border-color: #333;
+    color: #e5e5e5
+}
+
+body.dark input::placeholder {
+    color: #666
+}
+
+body.dark .tagline,
+body.dark footer p,
+body.dark .custom-slug-toggle {
+    color: #888
+}
+
+body.dark .result {
+    background: #0d2818;
+    border-color: #166534
+}
+
+body.dark .error-message {
+    background: #1c0a0a;
+    border-color: #7f1d1d
+}
+
+body.dark h1 {
+    color: #fff
+}
+
+body.dark #theme-toggle {
+    border-color: #333;
+    color: #e5e5e5
+}

@@ -1,0 +1,657 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Documentation - URL Shortener</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: #fff;
+            color: #1a1a1a;
+            line-height: 1.7
+        }
+
+        .sidebar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 260px;
+            height: 100vh;
+            background: #f8f9fa;
+            border-right: 1px solid #e5e5e5;
+            padding: 24px;
+            overflow-y: auto
+        }
+
+        .sidebar h2 {
+            font-size: 14px;
+            font-weight: 600;
+            margin-bottom: 16px;
+            color: #1a1a1a
+        }
+
+        .sidebar a {
+            display: block;
+            padding: 8px 12px;
+            margin: 2px 0;
+            font-size: 13px;
+            color: #666;
+            text-decoration: none;
+            border-radius: 6px;
+            transition: all .15s
+        }
+
+        .sidebar a:hover {
+            background: #e5e5e5;
+            color: #1a1a1a
+        }
+
+        .sidebar .section-title {
+            font-size: 11px;
+            text-transform: uppercase;
+            letter-spacing: .5px;
+            color: #999;
+            margin: 20px 0 8px;
+            font-weight: 600
+        }
+
+        .content {
+            margin-left: 260px;
+            padding: 48px 64px;
+            max-width: 900px
+        }
+
+        .back-link {
+            display: inline-block;
+            margin-bottom: 32px;
+            font-size: 13px;
+            color: #2563eb;
+            text-decoration: none
+        }
+
+        .back-link:hover {
+            text-decoration: underline
+        }
+
+        h1 {
+            font-size: 32px;
+            font-weight: 700;
+            margin-bottom: 8px
+        }
+
+        .subtitle {
+            font-size: 16px;
+            color: #666;
+            margin-bottom: 48px
+        }
+
+        h2 {
+            font-size: 24px;
+            font-weight: 600;
+            margin: 48px 0 16px;
+            padding-top: 24px;
+            border-top: 1px solid #e5e5e5
+        }
+
+        h2:first-of-type {
+            border-top: none;
+            margin-top: 0
+        }
+
+        h3 {
+            font-size: 18px;
+            font-weight: 600;
+            margin: 32px 0 12px
+        }
+
+        p {
+            margin-bottom: 16px;
+            color: #444
+        }
+
+        ul,
+        ol {
+            margin: 16px 0;
+            padding-left: 24px
+        }
+
+        li {
+            margin: 8px 0;
+            color: #444
+        }
+
+        code {
+            background: #f1f3f4;
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-size: 13px;
+            font-family: 'SF Mono', Monaco, monospace
+        }
+
+        pre {
+            background: #1a1a1a;
+            color: #f8f8f2;
+            padding: 20px;
+            border-radius: 8px;
+            overflow-x: auto;
+            margin: 16px 0;
+            font-size: 13px;
+            line-height: 1.5
+        }
+
+        pre code {
+            background: none;
+            padding: 0;
+            color: inherit
+        }
+
+        .info-box {
+            background: #eff6ff;
+            border: 1px solid #bfdbfe;
+            border-radius: 8px;
+            padding: 16px 20px;
+            margin: 20px 0
+        }
+
+        .info-box.warning {
+            background: #fef3c7;
+            border-color: #fcd34d
+        }
+
+        .info-box p {
+            margin: 0;
+            color: #1e40af
+        }
+
+        .info-box.warning p {
+            color: #92400e
+        }
+
+        .tech-card {
+            background: #f8f9fa;
+            border: 1px solid #e5e5e5;
+            border-radius: 8px;
+            padding: 20px;
+            margin: 16px 0
+        }
+
+        .tech-card h4 {
+            font-size: 16px;
+            font-weight: 600;
+            margin-bottom: 8px
+        }
+
+        .tech-card p {
+            margin: 0;
+            font-size: 14px
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0
+        }
+
+        th,
+        td {
+            text-align: left;
+            padding: 12px;
+            border-bottom: 1px solid #e5e5e5;
+            font-size: 14px
+        }
+
+        th {
+            font-weight: 600;
+            background: #f8f9fa
+        }
+
+        .footer {
+            margin-top: 64px;
+            padding-top: 32px;
+            border-top: 1px solid #e5e5e5;
+            font-size: 13px;
+            color: #999
+        }
+
+        @media(max-width:900px) {
+            .sidebar {
+                display: none
+            }
+
+            .content {
+                margin-left: 0;
+                padding: 24px
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <nav class="sidebar">
+        <h2>Documentation</h2>
+        <a href="#overview">Overview</a>
+        <a href="#architecture">Architecture</a>
+
+        <div class="section-title">Frontend</div>
+        <a href="#html">HTML Structure</a>
+        <a href="#css">CSS Styling</a>
+        <a href="#javascript">JavaScript</a>
+
+        <div class="section-title">Backend</div>
+        <a href="#vercel">Vercel Platform</a>
+        <a href="#serverless">Serverless Functions</a>
+        <a href="#api-routes">API Routes</a>
+
+        <div class="section-title">Database</div>
+        <a href="#upstash">Upstash Redis</a>
+        <a href="#data-model">Data Model</a>
+
+        <div class="section-title">Deployment</div>
+        <a href="#environment">Environment Variables</a>
+        <a href="#deployment">Deploying</a>
+        <a href="#domains">Custom Domains</a>
+
+        <div class="section-title">Reference</div>
+        <a href="#api-reference">API Reference</a>
+        <a href="#troubleshooting">Troubleshooting</a>
+    </nav>
+
+    <main class="content">
+        <a href="/" class="back-link">← Back to App</a>
+
+        <h1>URL Shortener Documentation</h1>
+        <p class="subtitle">Complete technical documentation for the URL shortening service built with Vercel and
+            Upstash Redis.</p>
+
+        <h2 id="overview">Overview</h2>
+        <p>This URL shortener is a serverless application that converts long URLs into short, memorable links. It's
+            built entirely on modern web technologies with no traditional server infrastructure.</p>
+
+        <div class="tech-card">
+            <h4>Tech Stack</h4>
+            <p>Vercel (hosting) + Upstash Redis (database) + Vanilla JavaScript (frontend)</p>
+        </div>
+
+        <h3>Key Features</h3>
+        <ul>
+            <li><strong>Instant URL shortening</strong> - Generate 6-character codes in milliseconds</li>
+            <li><strong>Custom slugs</strong> - Choose your own short codes</li>
+            <li><strong>Click tracking</strong> - Automatic analytics for each link</li>
+            <li><strong>Global edge network</strong> - Fast redirects worldwide via Vercel's CDN</li>
+            <li><strong>Zero cold starts</strong> - Redis REST API eliminates connection overhead</li>
+        </ul>
+
+        <h2 id="architecture">Architecture</h2>
+        <p>The application follows a simple three-tier architecture optimized for serverless deployment:</p>
+
+        <h3>Request Flow</h3>
+        <ol>
+            <li><strong>User visits short URL</strong> (e.g., <code>yoursite.com/abc123</code>)</li>
+            <li><strong>Vercel edge network</strong> routes request to nearest serverless function</li>
+            <li><strong>Function queries Upstash Redis</strong> via HTTP REST API</li>
+            <li><strong>Redis returns original URL</strong> from key-value store</li>
+            <li><strong>Function responds with 302 redirect</strong> to original URL</li>
+        </ol>
+
+        <div class="info-box">
+            <p><strong>Why serverless?</strong> No servers to manage, automatic scaling, pay-per-use pricing, and global
+                distribution out of the box.</p>
+        </div>
+
+        <h2 id="html">HTML Structure</h2>
+        <p>The frontend is a single HTML page with semantic markup. No framework or build step required.</p>
+
+        <h3>Key Elements</h3>
+        <pre><code>&lt;form id="shorten-form"&gt;
+  &lt;input type="url" id="url-input" required&gt;
+  &lt;button type="submit"&gt;Shorten&lt;/button&gt;
+&lt;/form&gt;
+
+&lt;div class="result" id="result"&gt;
+  &lt;a id="short-url"&gt;&lt;/a&gt;
+  &lt;button id="copy-btn"&gt;Copy&lt;/button&gt;
+&lt;/div&gt;</code></pre>
+
+        <p>The form captures the long URL, submits to the API, and displays the result. All interactions are handled by
+            JavaScript - the page never reloads.</p>
+
+        <h2 id="css">CSS Styling</h2>
+        <p>Styles are written in vanilla CSS with no preprocessor. The design prioritizes simplicity and fast loading.
+        </p>
+
+        <h3>Design Principles</h3>
+        <ul>
+            <li><strong>System fonts</strong> - Uses native OS fonts for instant rendering</li>
+            <li><strong>Minimal palette</strong> - Gray, white, and one accent color (blue)</li>
+            <li><strong>No animations</strong> - Reduces motion for better accessibility</li>
+            <li><strong>Mobile-first</strong> - Responsive design with single breakpoint</li>
+        </ul>
+
+        <h3>Color Values</h3>
+        <table>
+            <tr>
+                <th>Element</th>
+                <th>Color</th>
+                <th>Usage</th>
+            </tr>
+            <tr>
+                <td>Background</td>
+                <td><code>#fafafa</code></td>
+                <td>Page background</td>
+            </tr>
+            <tr>
+                <td>Card</td>
+                <td><code>#ffffff</code></td>
+                <td>Form container</td>
+            </tr>
+            <tr>
+                <td>Text</td>
+                <td><code>#1a1a1a</code></td>
+                <td>Primary text</td>
+            </tr>
+            <tr>
+                <td>Muted</td>
+                <td><code>#666666</code></td>
+                <td>Secondary text</td>
+            </tr>
+            <tr>
+                <td>Accent</td>
+                <td><code>#2563eb</code></td>
+                <td>Buttons, links</td>
+            </tr>
+            <tr>
+                <td>Success</td>
+                <td><code>#059669</code></td>
+                <td>Success states</td>
+            </tr>
+            <tr>
+                <td>Error</td>
+                <td><code>#dc2626</code></td>
+                <td>Error messages</td>
+            </tr>
+        </table>
+
+        <h2 id="javascript">JavaScript</h2>
+        <p>The frontend JavaScript handles form submission, API communication, and clipboard operations. It's written in
+            vanilla ES6+ with no dependencies.</p>
+
+        <h3>Core Functions</h3>
+        <pre><code>// Form submission
+form.onsubmit = async (e) => {
+  e.preventDefault()
+  const res = await fetch('/api/shorten', {
+    method: 'POST',
+    headers: {'Content-Type': 'application/json'},
+    body: JSON.stringify({url: input.value})
+  })
+  const data = await res.json()
+  // Display result...
+}
+
+// Clipboard API
+copyBtn.onclick = async () => {
+  await navigator.clipboard.writeText(shortUrl.href)
+}</code></pre>
+
+        <h3>Browser APIs Used</h3>
+        <ul>
+            <li><strong>Fetch API</strong> - Modern HTTP requests</li>
+            <li><strong>Clipboard API</strong> - Copy to clipboard</li>
+            <li><strong>DOM APIs</strong> - Element manipulation</li>
+            <li><strong>classList</strong> - CSS class toggling</li>
+        </ul>
+
+        <h2 id="vercel">Vercel Platform</h2>
+        <p>Vercel is a cloud platform for frontend developers that provides hosting, serverless functions, and edge
+            network capabilities.</p>
+
+        <h3>Why Vercel?</h3>
+        <ul>
+            <li><strong>Zero configuration</strong> - Automatic builds and deployments</li>
+            <li><strong>Git integration</strong> - Deploy on every push</li>
+            <li><strong>Edge network</strong> - Global CDN for static assets</li>
+            <li><strong>Serverless functions</strong> - Backend logic without servers</li>
+            <li><strong>Free tier</strong> - Generous limits for personal projects</li>
+        </ul>
+
+        <div class="tech-card">
+            <h4>Free Tier Limits</h4>
+            <p>100GB bandwidth/month • Unlimited static requests • 100K serverless invocations</p>
+        </div>
+
+        <h2 id="serverless">Serverless Functions</h2>
+        <p>Vercel Serverless Functions are JavaScript/TypeScript functions that run on-demand. Each API route is a
+            separate function.</p>
+
+        <h3>Function Anatomy</h3>
+        <pre><code>// api/example.js
+export default async function handler(req, res) {
+  // req.method - HTTP method (GET, POST, etc.)
+  // req.body - Request body (parsed JSON)
+  // req.query - URL query parameters
+  
+  res.status(200).json({ message: 'Hello' })
+}</code></pre>
+
+        <h3>Cold Starts</h3>
+        <p>Serverless functions have "cold starts" - initial latency when a function hasn't run recently. Upstash's
+            HTTP-based Redis eliminates connection overhead, keeping functions fast.</p>
+
+        <h2 id="api-routes">API Routes</h2>
+        <p>The application has three API endpoints, each in the <code>/api</code> directory:</p>
+
+        <table>
+            <tr>
+                <th>File</th>
+                <th>Method</th>
+                <th>Purpose</th>
+            </tr>
+            <tr>
+                <td><code>shorten.js</code></td>
+                <td>POST</td>
+                <td>Create short URL</td>
+            </tr>
+            <tr>
+                <td><code>stats.js</code></td>
+                <td>GET</td>
+                <td>Get all URL stats</td>
+            </tr>
+            <tr>
+                <td><code>[slug].js</code></td>
+                <td>GET</td>
+                <td>Redirect to original URL</td>
+            </tr>
+        </table>
+
+        <h3>Dynamic Routes</h3>
+        <p>The <code>[slug].js</code> file uses Vercel's dynamic routing. The brackets indicate a parameter - any path
+            like <code>/abc123</code> will be handled by this function with <code>req.query.slug = 'abc123'</code>.</p>
+
+        <h2 id="upstash">Upstash Redis</h2>
+        <p>Upstash is a serverless Redis database with an HTTP/REST API. Unlike traditional Redis that requires
+            persistent connections, Upstash works perfectly with serverless functions.</p>
+
+        <h3>Why Upstash?</h3>
+        <ul>
+            <li><strong>HTTP API</strong> - No connection management needed</li>
+            <li><strong>Serverless pricing</strong> - Pay per request, not per hour</li>
+            <li><strong>Global replication</strong> - Low latency worldwide</li>
+            <li><strong>Free tier</strong> - 10,000 commands/day</li>
+        </ul>
+
+        <h3>SDK Usage</h3>
+        <pre><code>import { Redis } from '@upstash/redis'
+
+const redis = Redis.fromEnv()
+
+// Set a value
+await redis.set('key', 'value')
+
+// Get a value
+const value = await redis.get('key')
+
+// Delete a key
+await redis.del('key')</code></pre>
+
+        <h2 id="data-model">Data Model</h2>
+        <p>URLs are stored in Redis as JSON strings with a <code>url:</code> prefix for organization.</p>
+
+        <h3>Key Structure</h3>
+        <pre><code>Key:   url:abc123
+Value: {"url":"https://example.com/long/path","created":1704067200000,"clicks":42}</code></pre>
+
+        <h3>Schema</h3>
+        <table>
+            <tr>
+                <th>Field</th>
+                <th>Type</th>
+                <th>Description</th>
+            </tr>
+            <tr>
+                <td><code>url</code></td>
+                <td>string</td>
+                <td>Original long URL</td>
+            </tr>
+            <tr>
+                <td><code>created</code></td>
+                <td>number</td>
+                <td>Unix timestamp (ms)</td>
+            </tr>
+            <tr>
+                <td><code>clicks</code></td>
+                <td>number</td>
+                <td>Click count</td>
+            </tr>
+        </table>
+
+        <h2 id="environment">Environment Variables</h2>
+        <p>The application requires two environment variables for Upstash Redis:</p>
+
+        <table>
+            <tr>
+                <th>Variable</th>
+                <th>Description</th>
+            </tr>
+            <tr>
+                <td><code>UPSTASH_REDIS_REST_URL</code></td>
+                <td>Your Upstash Redis REST endpoint</td>
+            </tr>
+            <tr>
+                <td><code>UPSTASH_REDIS_REST_TOKEN</code></td>
+                <td>Authentication token</td>
+            </tr>
+        </table>
+
+        <div class="info-box warning">
+            <p><strong>Security:</strong> Never commit these values to version control. Add them via Vercel's dashboard
+                or CLI.</p>
+        </div>
+
+        <h3>Setting Variables</h3>
+        <pre><code># Via Vercel CLI
+vercel env add UPSTASH_REDIS_REST_URL
+vercel env add UPSTASH_REDIS_REST_TOKEN
+
+# Pull to local .env.local
+vercel env pull</code></pre>
+
+        <h2 id="deployment">Deploying</h2>
+        <p>Deployment is handled automatically by Vercel. You can deploy via CLI or Git.</p>
+
+        <h3>CLI Deployment</h3>
+        <pre><code># Preview deployment
+vercel
+
+# Production deployment
+vercel --prod</code></pre>
+
+        <h3>Git Deployment</h3>
+        <ol>
+            <li>Connect your GitHub repo to Vercel</li>
+            <li>Push to main branch</li>
+            <li>Vercel automatically builds and deploys</li>
+        </ol>
+
+        <h2 id="domains">Custom Domains</h2>
+        <p>Vercel provides free <code>.vercel.app</code> subdomains. You can also add custom domains.</p>
+
+        <h3>Adding a Domain</h3>
+        <ol>
+            <li>Go to Vercel Dashboard → Your Project → Settings → Domains</li>
+            <li>Enter your domain name</li>
+            <li>Add the DNS records shown to your registrar</li>
+            <li>Wait for DNS propagation (up to 48 hours)</li>
+        </ol>
+
+        <h2 id="api-reference">API Reference</h2>
+
+        <h3>POST /api/shorten</h3>
+        <p>Create a new short URL.</p>
+
+        <pre><code>// Request
+POST /api/shorten
+Content-Type: application/json
+
+{
+  "url": "https://example.com/very/long/path",
+  "customSlug": "mylink"  // optional
+}
+
+// Response
+{
+  "success": true,
+  "shortUrl": "https://yoursite.com/abc123",
+  "slug": "abc123",
+  "originalUrl": "https://example.com/very/long/path"
+}</code></pre>
+
+        <h3>GET /api/stats</h3>
+        <p>Get statistics for all shortened URLs.</p>
+
+        <pre><code>// Response
+{
+  "urls": [
+    {
+      "slug": "abc123",
+      "url": "https://example.com",
+      "clicks": 42,
+      "created": 1704067200000
+    }
+  ]
+}</code></pre>
+
+        <h3>GET /:slug</h3>
+        <p>Redirect to the original URL. Returns 302 redirect or 404 if not found.</p>
+
+        <h2 id="troubleshooting">Troubleshooting</h2>
+
+        <h3>Common Issues</h3>
+
+        <div class="tech-card">
+            <h4>"Failed to create short URL"</h4>
+            <p>Check that environment variables are set correctly. Run <code>vercel env pull</code> to sync.</p>
+        </div>
+
+        <div class="tech-card">
+            <h4>Styles not loading</h4>
+            <p>Try a hard refresh: Cmd+Shift+R (Mac) or Ctrl+Shift+R (Windows). Restart the dev server.</p>
+        </div>
+
+        <div class="tech-card">
+            <h4>Function timeouts</h4>
+            <p>Upstash has a 1-second default timeout. Check your redis connection URL is correct.</p>
+        </div>
+
+
+    </main>
+</body>
+
+</html>
