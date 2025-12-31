@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>URL Shortener</title>
+  <meta name="description" content="Free, fast URL shortener powered by Cloudflare Workers">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/styles.css">
+</head>
+<body>
+  <div class="container">
+    <header>
+      <div class="logo">
+        <div class="logo-icon">🔗</div>
+        <h1>URL Shortener</h1>
+      </div>
+      <p class="tagline">Fast, free, and powered by Cloudflare Workers</p>
+    </header>
+
+    <main class="card">
+      <form id="shorten-form">
+        <div class="form-group">
+          <label for="url-input">Enter your long URL</label>
+          <input 
+            type="url" 
+            id="url-input" 
+            placeholder="https://example.com/your-very-long-url" 
+            required
+            autocomplete="off"
+          >
+        </div>
+
+        <label class="custom-slug-toggle">
+          <input type="checkbox" id="custom-toggle">
+          Use custom slug
+        </label>
+
+        <div class="form-group custom-slug-input" id="custom-slug-group">
+          <label for="custom-slug">Custom slug (optional)</label>
+          <input 
+            type="text" 
+            id="custom-slug" 
+            placeholder="my-custom-link"
+            pattern="[a-zA-Z0-9-_]+"
+            title="Only letters, numbers, hyphens, and underscores allowed"
+          >
+        </div>
+
+        <button type="submit" id="submit-btn">
+          Shorten URL
+        </button>
+      </form>
+
+      <div class="result" id="result">
+        <div class="result-label">Your shortened URL</div>
+        <div class="result-url">
+          <a href="#" id="short-url" target="_blank"></a>
+          <button type="button" class="copy-btn" id="copy-btn">Copy</button>
+        </div>
+      </div>
+
+      <div class="error-message" id="error"></div>
+    </main>
+
+    <footer>
+      <p>Built with ⚡ Cloudflare Workers</p>
+    </footer>
+  </div>
+
+  <script src="/app.js"></script>
+</body>
+</html>
