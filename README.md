@@ -1,10 +1,10 @@
 # URL Shortener
 
-A fast, free URL shortener built on Cloudflare Workers with KV storage.
+A fast, free URL shortener built on Vercel with serverless functions.
 
 ## Features
 
-- ⚡ **Fast** - Edge-deployed globally via Cloudflare Workers
+- ⚡ **Fast** - Serverless functions on Vercel's edge network
 - 🔗 **Short URLs** - Generate 6-character random slugs
 - ✏️ **Custom Slugs** - Use your own custom slugs
 - 📊 **Click Tracking** - Basic analytics for each link
@@ -12,41 +12,40 @@ A fast, free URL shortener built on Cloudflare Workers with KV storage.
 
 ## Setup
 
-### 1. Install Dependencies
+### 1. Install Vercel CLI
+
+```bash
+npm install -g vercel
+```
+
+### 2. Install Dependencies
 
 ```bash
 npm install
 ```
 
-### 2. Create KV Namespace
+### 3. Create Vercel KV Store
 
-```bash
-npm run kv:create
-```
-
-This will output something like:
-```
-🌀 Creating namespace "URLS"
-✨ Success! Created namespace "URLS" with ID "abc123..."
-```
-
-### 3. Update wrangler.toml
-
-Replace `YOUR_KV_NAMESPACE_ID` in `wrangler.toml` with the ID from the previous step.
+1. Go to your [Vercel Dashboard](https://vercel.com/dashboard)
+2. Navigate to **Storage** → **Create** → **KV**
+3. Name it `url-shortener-kv`
+4. Connect it to your project
 
 ### 4. Local Development
 
 ```bash
-npm run dev
+vercel dev
 ```
 
-This starts a local development server at `http://localhost:8787`.
+This starts a local development server at `http://localhost:3000`.
 
 ### 5. Deploy
 
 ```bash
-npm run deploy
+vercel --prod
 ```
+
+Or just push to your connected GitHub repo!
 
 ## API Endpoints
 
@@ -66,7 +65,7 @@ Create a short URL.
 ```json
 {
   "success": true,
-  "shortUrl": "https://your-worker.workers.dev/abc123",
+  "shortUrl": "https://your-app.vercel.app/abc123",
   "slug": "abc123",
   "originalUrl": "https://example.com/very-long-url"
 }
@@ -84,19 +83,23 @@ Redirects to the original URL.
 
 ```
 url-shortener/
-├── src/
-│   └── index.js      # Main Worker code with embedded frontend
-├── wrangler.toml     # Cloudflare Workers configuration
-├── package.json      # Project dependencies
-└── README.md         # This file
+├── api/
+│   ├── shorten.js    # Create short URLs
+│   ├── stats.js      # Get URL statistics
+│   └── [slug].js     # Handle redirects
+├── public/
+│   ├── index.html    # Frontend HTML
+│   ├── styles.css    # CSS styles
+│   └── app.js        # Frontend JavaScript
+├── vercel.json       # Vercel configuration
+└── package.json      # Dependencies
 ```
 
 ## Free Tier Limits
 
-Cloudflare Workers free tier includes:
-- 100,000 requests/day
-- 10ms CPU time per request
-- 1GB KV storage
+Vercel free tier includes:
+- 100GB bandwidth/month
+- Serverless function executions
+- Vercel KV (limited reads/writes)
 
 Perfect for personal URL shorteners!
-# url-shortener

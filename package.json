@@ -1,16 +1,18 @@
 {
   "name": "url-shortener",
   "version": "1.0.0",
-  "description": "A simple URL shortener built on Cloudflare Workers",
-  "main": "src/index.js",
+  "description": "A simple URL shortener built on Vercel",
   "scripts": {
-    "dev": "wrangler dev",
-    "deploy": "wrangler deploy",
-    "kv:create": "wrangler kv:namespace create URLS"
+    "start": "npx vercel dev",
+    "deploy": "npx vercel --prod"
   },
-  "keywords": ["cloudflare", "workers", "url-shortener"],
+  "keywords": [
+    "vercel",
+    "url-shortener",
+    "serverless"
+  ],
   "license": "MIT",
-  "devDependencies": {
-    "wrangler": "^3.0.0"
+  "dependencies": {
+    "@upstash/redis": "^1.28.0"
   }
 }
