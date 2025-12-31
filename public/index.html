@@ -4,49 +4,41 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>URL Shortener</title>
-    <meta name="description" content="Free, fast URL shortener powered by Vercel">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <title>Shorten URL</title>
+    <meta name="description" content="Quick URL shortener">
     <link rel="stylesheet" href="/styles.css">
 </head>
 
 <body>
     <div class="container">
         <header>
-            <div class="logo">
-                <div class="logo-icon">🔗</div>
-                <h1>URL Shortener</h1>
-            </div>
-            <p class="tagline">Fast, free, and powered by Vercel</p>
+            <h1>Shorten a link</h1>
+            <p class="tagline">Paste a long URL and get a short one</p>
         </header>
 
         <main class="card">
             <form id="shorten-form">
                 <div class="form-group">
-                    <label for="url-input">Enter your long URL</label>
-                    <input type="url" id="url-input" placeholder="https://example.com/your-very-long-url" required
+                    <label for="url-input">Long URL</label>
+                    <input type="url" id="url-input" placeholder="https://example.com/some/long/path" required
                         autocomplete="off">
                 </div>
 
                 <label class="custom-slug-toggle">
                     <input type="checkbox" id="custom-toggle">
-                    Use custom slug
+                    Custom short code
                 </label>
 
                 <div class="form-group custom-slug-input" id="custom-slug-group">
-                    <label for="custom-slug">Custom slug (optional)</label>
-                    <input type="text" id="custom-slug" placeholder="my-custom-link" pattern="[a-zA-Z0-9-_]+"
-                        title="Only letters, numbers, hyphens, and underscores allowed">
+                    <label for="custom-slug">Short code</label>
+                    <input type="text" id="custom-slug" placeholder="my-link" pattern="[a-zA-Z0-9-_]+">
                 </div>
 
-                <button type="submit" id="submit-btn">
-                    Shorten URL
-                </button>
+                <button type="submit" id="submit-btn">Shorten</button>
             </form>
 
             <div class="result" id="result">
-                <div class="result-label">Your shortened URL</div>
+                <div class="result-label">Done</div>
                 <div class="result-url">
                     <a href="#" id="short-url" target="_blank"></a>
                     <button type="button" class="copy-btn" id="copy-btn">Copy</button>
@@ -57,7 +49,7 @@
         </main>
 
         <footer>
-            <p>Built with ⚡ Vercel + Upstash</p>
+            <p>Free to use</p>
         </footer>
     </div>
 
