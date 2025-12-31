@@ -1,14 +1,7 @@
 # URL Shortener
 
-A fast, free URL shortener built on Vercel with serverless functions.
+URL shortener built on Vercel with serverless functions.
 
-## Features
-
-- ⚡ **Fast** - Serverless functions on Vercel's edge network
-- 🔗 **Short URLs** - Generate 6-character random slugs
-- ✏️ **Custom Slugs** - Use your own custom slugs
-- 📊 **Click Tracking** - Basic analytics for each link
-- 🎨 **Modern UI** - Beautiful, responsive interface
 
 ## Setup
 
@@ -79,27 +72,4 @@ Get statistics for all shortened URLs.
 
 Redirects to the original URL.
 
-## Project Structure
 
-```
-url-shortener/
-├── api/
-│   ├── shorten.js    # Create short URLs
-│   ├── stats.js      # Get URL statistics
-│   └── [slug].js     # Handle redirects
-├── public/
-│   ├── index.html    # Frontend HTML
-│   ├── styles.css    # CSS styles
-│   └── app.js        # Frontend JavaScript
-├── vercel.json       # Vercel configuration
-└── package.json      # Dependencies
-```
-
-## Free Tier Limits
-
-Vercel free tier includes:
-- 100GB bandwidth/month
-- Serverless function executions
-- Vercel KV (limited reads/writes)
-
-Perfect for personal URL shorteners!
