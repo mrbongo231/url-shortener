@@ -10,14 +10,13 @@
 </head>
 
 <body>
+    <button id="theme-toggle"
+        style="position:fixed;top:20px;right:20px;width:40px;height:40px;border-radius:50%;border:1px solid #e5e5e5;background:#fff;cursor:pointer;font-size:18px;display:flex;align-items:center;justify-content:center"
+        onclick="document.body.classList.toggle('dark');localStorage.setItem('theme',document.body.classList.contains('dark')?'dark':'light');this.textContent=document.body.classList.contains('dark')?'☀️':'🌙'">🌙</button>
+
     <div class="container">
         <header>
-            <div style="display:flex;justify-content:space-between;align-items:center">
-                <h1>Shorten a link</h1>
-                <button id="theme-toggle"
-                    style="background:none;border:1px solid #e5e5e5;border-radius:6px;padding:6px 10px;cursor:pointer;font-size:14px"
-                    onclick="document.body.classList.toggle('dark');localStorage.setItem('theme',document.body.classList.contains('dark')?'dark':'light')">🌙</button>
-            </div>
+            <h1>Shorten a link</h1>
             <p class="tagline">Paste a long URL and get a short one</p>
         </header>
 
