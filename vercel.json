@@ -9,6 +9,10 @@
             "destination": "/api/stats"
         },
         {
+            "source": "/api/bio",
+            "destination": "/api/bio"
+        },
+        {
             "source": "/:slug",
             "destination": "/api/[slug]"
         }
