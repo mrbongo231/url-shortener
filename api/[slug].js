@@ -2,6 +2,12 @@ import { Redis } from '@upstash/redis';
 
 const redis = Redis.fromEnv();
 
+// Social platform icons
+const SOCIAL_ICONS = {
+    instagram: '📷', twitter: '𝕏', tiktok: '🎵', youtube: '▶️',
+    linkedin: '💼', github: '🐙', discord: '💬', spotify: '🎧',
+    twitch: '🎮', facebook: '📘', pinterest: '📌', email: '✉️'
+};
 
 export default async function handler(req, res) {
     if (req.method !== 'GET') {
@@ -84,73 +90,21 @@ function escapeHtml(text) {
         .replace(/'/g, '&#039;');
 }
 
-// Theme definitions for rendering
-const THEMES = {
-    midnight: { bg: 'linear-gradient(180deg, #0a0a0f 0%, #1a1a2e 100%)', textPrimary: '#ffffff', textSecondary: 'rgba(255,255,255,0.7)' },
-    ocean: { bg: 'linear-gradient(180deg, #0077b6 0%, #00b4d8 100%)', textPrimary: '#ffffff', textSecondary: 'rgba(255,255,255,0.85)' },
-    sunset: { bg: 'linear-gradient(180deg, #f72585 0%, #ffd166 100%)', textPrimary: '#ffffff', textSecondary: 'rgba(255,255,255,0.9)' },
-    forest: { bg: 'linear-gradient(180deg, #2d6a4f 0%, #95d5b2 100%)', textPrimary: '#ffffff', textSecondary: 'rgba(255,255,255,0.85)' },
-    lavender: { bg: 'linear-gradient(180deg, #7b2cbf 0%, #c77dff 100%)', textPrimary: '#ffffff', textSecondary: 'rgba(255,255,255,0.85)' },
-    minimal: { bg: 'linear-gradient(180deg, #f8f9fa 0%, #e9ecef 100%)', textPrimary: '#1a1a1a', textSecondary: 'rgba(0,0,0,0.6)' }
-};
-
 function generateBioPage(bioData) {
-    const { displayName, bio, links, profileImage, style } = bioData;
-    const initial = displayName ? displayName.charAt(0).toUpperCase() : '?';
+    const { elements, bg } = bioData;
 
-    // Get style settings with defaults
-    const s = style || {};
-    const theme = THEMES[s.theme] || THEMES.midnight;
-    const textAlign = s.textAlign || 'center';
-    const buttonStyle = s.buttonStyle || 'rounded';
-    const buttonColor = s.buttonColor || '#8b5cf6';
-
-    // Determine background
-    let bgStyle = theme.bg;
-    let textPrimary = theme.textPrimary;
-    let textSecondary = theme.textSecondary;
-
-    if (s.bgType === 'solid' && s.bgColor) {
-        bgStyle = s.bgColor;
-        // Adjust text colors based on background brightness
-        const isDark = isColorDark(s.bgColor);
-        textPrimary = isDark ? '#ffffff' : '#1a1a1a';
-        textSecondary = isDark ? 'rgba(255,255,255,0.7)' : 'rgba(0,0,0,0.6)';
-    } else if (s.bgType === 'image' && s.bgImage) {
-        bgStyle = `url(${escapeHtml(s.bgImage)}) center/cover no-repeat`;
-    }
-
-    // Generate button styles based on buttonStyle
-    let buttonRadius = '12px';
-    let buttonBgStyle = `background: ${buttonColor}`;
-    if (buttonStyle === 'pill') buttonRadius = '50px';
-    if (buttonStyle === 'square') buttonRadius = '0';
-    if (buttonStyle === 'outline') {
-        buttonBgStyle = `background: transparent; border: 2px solid ${buttonColor}; color: ${buttonColor}`;
-    }
-
-    // Generate avatar HTML
-    const avatarHtml = profileImage
-        ? `<img src="${escapeHtml(profileImage)}" alt="${escapeHtml(displayName)}" style="width:100%;height:100%;object-fit:cover;" onerror="this.outerHTML='${initial}'">`
-        : initial;
-    const avatarStyle = profileImage ? 'background: none; overflow: hidden;' : '';
-
-    const linksHtml = links.map(link => `
-        <a href="${escapeHtml(link.url)}" class="bio-link" target="_blank" rel="noopener noreferrer" 
-           style="${buttonBgStyle}; border-radius: ${buttonRadius};">
-            ${escapeHtml(link.title)}
-        </a>
-    `).join('');
+    // Render each element
+    const elementsHtml = (elements || []).map(el => renderElement(el)).join('');
 
     return `<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>${escapeHtml(displayName)} | LinkBio</title>
-    <meta name="description" content="${escapeHtml(bio || `Check out ${displayName}'s links`)}">
-    <meta property="og:title" content="${escapeHtml(displayName)} | LinkBio">
-    <meta property="og:description" content="${escapeHtml(bio || `Check out ${displayName}'s links`)}">
+    <title>${getPageTitle(elements)} | LinkBio</title>
+    <meta name="description" content="${getPageDescription(elements)}">
+    <meta property="og:title" content="${getPageTitle(elements)} | LinkBio">
+    <meta property="og:description" content="${getPageDescription(elements)}">
     <meta property="og:type" content="profile">
     <meta name="twitter:card" content="summary">
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -161,91 +115,92 @@ function generateBioPage(bioData) {
         
         body {
             font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
-            background: ${bgStyle};
-            color: ${textPrimary};
-            min-height: 100vh;
-            line-height: 1.6;
-        }
-        
-        .bio-page {
+            background: ${escapeHtml(bg) || 'linear-gradient(180deg, #1a1a2e 0%, #0f0f18 100%)'};
             min-height: 100vh;
             display: flex;
-            flex-direction: column;
-            align-items: center;
             justify-content: center;
-            padding: 2rem;
-            text-align: ${textAlign};
+            padding: 20px;
         }
         
-        .bio-card {
+        .bio-canvas {
+            width: 100%;
             max-width: 400px;
-            width: 100%;
-            display: flex;
-            flex-direction: column;
-            align-items: ${textAlign === 'left' ? 'flex-start' : textAlign === 'right' ? 'flex-end' : 'center'};
+            min-height: 600px;
+            position: relative;
         }
         
-        .bio-avatar {
-            width: 100px;
-            height: 100px;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 50%, #f093fb 100%);
-            border-radius: 50%;
+        .bio-element {
+            position: absolute;
+            transform: translateX(-50%);
+        }
+        
+        .bio-image {
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 2.5rem;
-            font-weight: 700;
-            color: white;
-            margin-bottom: 1.25rem;
-            text-transform: uppercase;
-            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.3);
-            ${avatarStyle}
+            background: rgba(255,255,255,0.1);
+            overflow: hidden;
         }
         
-        .bio-name {
-            font-size: 1.75rem;
-            font-weight: 700;
-            margin-bottom: 0.5rem;
-            color: ${textPrimary};
-        }
-        
-        .bio-description {
-            font-size: 1rem;
-            color: ${textSecondary};
-            margin-bottom: 2rem;
-            line-height: 1.5;
-            max-width: 100%;
-        }
-        
-        .bio-links {
+        .bio-image img {
             width: 100%;
-            display: flex;
-            flex-direction: column;
-            gap: 0.875rem;
+            height: 100%;
+            object-fit: cover;
         }
         
-        .bio-link {
+        .bio-image .placeholder {
+            font-size: 2rem;
+            color: rgba(255,255,255,0.5);
+        }
+        
+        .bio-text {
+            word-wrap: break-word;
+        }
+        
+        .bio-button {
             display: block;
-            padding: 1rem 1.5rem;
-            color: ${buttonStyle === 'outline' ? buttonColor : '#ffffff'};
-            font-size: 1rem;
-            font-weight: 500;
-            text-decoration: none;
+            padding: 12px 24px;
             text-align: center;
+            text-decoration: none;
+            font-weight: 500;
+            color: white;
             transition: all 0.3s ease;
+            cursor: pointer;
         }
         
-        .bio-link:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+        .bio-button:hover {
+            transform: translateX(-50%) translateY(-3px);
+            box-shadow: 0 8px 20px rgba(0,0,0,0.2);
             opacity: 0.9;
         }
         
+        .bio-social {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: rgba(255,255,255,0.1);
+            border-radius: 50%;
+            font-size: 1.25rem;
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+        
+        .bio-social:hover {
+            background: rgba(255,255,255,0.2);
+            transform: translateX(-50%) scale(1.1);
+        }
+        
+        .bio-divider {
+            transform: translateX(-50%);
+        }
+        
         .bio-footer {
-            margin-top: 3rem;
-            color: ${textSecondary};
-            font-size: 0.8rem;
-            opacity: 0.7;
+            position: absolute;
+            bottom: 10px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 11px;
+            color: rgba(255,255,255,0.4);
         }
         
         .bio-footer a {
@@ -254,35 +209,62 @@ function generateBioPage(bioData) {
         }
         
         .bio-footer a:hover {
-            opacity: 0.8;
+            color: rgba(255,255,255,0.6);
         }
     </style>
 </head>
 <body>
-    <div class="bio-page">
-        <div class="bio-card">
-            <div class="bio-avatar">${avatarHtml}</div>
-            <h1 class="bio-name">${escapeHtml(displayName)}</h1>
-            ${bio ? `<p class="bio-description">${escapeHtml(bio)}</p>` : ''}
-            <div class="bio-links">
-                ${linksHtml}
-            </div>
-            <div class="bio-footer">
-                <a href="/bio.html">Create your own LinkBio →</a>
-            </div>
+    <div class="bio-canvas">
+        ${elementsHtml}
+        <div class="bio-footer">
+            <a href="/bio.html">Create your own LinkBio →</a>
         </div>
     </div>
 </body>
 </html>`;
 }
 
-function isColorDark(hexColor) {
-    const hex = (hexColor || '#000000').replace('#', '');
-    const r = parseInt(hex.substr(0, 2), 16);
-    const g = parseInt(hex.substr(2, 2), 16);
-    const b = parseInt(hex.substr(4, 2), 16);
-    const luminance = (0.299 * r + 0.587 * g + 0.114 * b) / 255;
-    return luminance < 0.5;
+function renderElement(el) {
+    const baseStyle = `left:${el.x}%;top:${el.y}%;width:${el.w}%;`;
+
+    switch (el.type) {
+        case 'image':
+            const imgContent = el.props.src
+                ? `<img src="${escapeHtml(el.props.src)}" alt="Profile">`
+                : '<span class="placeholder">📷</span>';
+            const imgStyle = el.props.shape === 'circle' ? 'border-radius:50%;' : 'border-radius:8px;';
+            return `<div class="bio-element bio-image" style="${baseStyle}aspect-ratio:1;${imgStyle}">${imgContent}</div>`;
+
+        case 'text':
+            const textStyle = `font-size:${el.props.fontSize}px;font-weight:${el.props.bold ? '700' : '400'};text-align:${el.props.align};color:${escapeHtml(el.props.color)};`;
+            return `<div class="bio-element bio-text" style="${baseStyle}${textStyle}">${escapeHtml(el.props.content)}</div>`;
+
+        case 'button':
+            const btnStyle = `background:${escapeHtml(el.props.color)};border-radius:${el.props.radius}px;${el.props.textColor ? `color:${escapeHtml(el.props.textColor)};` : ''}`;
+            const href = el.props.url ? `href="${escapeHtml(el.props.url)}"` : '';
+            return `<a class="bio-element bio-button" ${href} target="_blank" rel="noopener" style="${baseStyle}${btnStyle}">${escapeHtml(el.props.label)}</a>`;
+
+        case 'social':
+            const icon = SOCIAL_ICONS[el.props.platform] || '🔗';
+            const socialHref = el.props.url ? `href="${escapeHtml(el.props.url)}"` : '';
+            return `<a class="bio-element bio-social" ${socialHref} target="_blank" rel="noopener" style="${baseStyle}aspect-ratio:1;">${icon}</a>`;
+
+        case 'divider':
+            return `<div class="bio-element bio-divider" style="${baseStyle}height:2px;background:${escapeHtml(el.props.color)};"></div>`;
+
+        default:
+            return '';
+    }
+}
+
+function getPageTitle(elements) {
+    const textEl = (elements || []).find(el => el.type === 'text' && el.props.bold);
+    return textEl ? textEl.props.content : 'LinkBio Page';
+}
+
+function getPageDescription(elements) {
+    const texts = (elements || []).filter(el => el.type === 'text').map(el => el.props.content);
+    return texts.slice(0, 2).join(' - ') || 'Check out my links';
 }
 
 function generateErrorPage(title, message) {

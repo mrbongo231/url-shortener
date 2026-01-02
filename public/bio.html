@@ -3,10 +3,9 @@
 
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Link in Bio - Create Your Page</title>
-    <meta name="description"
-        content="Create a beautiful, customizable link in bio page in seconds. Free Linktree alternative.">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>LinkBio Editor - Create Your Page</title>
+    <meta name="description" content="Drag-and-drop bio page editor. Create your customized link in bio page.">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -14,285 +13,178 @@
 </head>
 
 <body>
-    <div class="bg-gradient"></div>
-    <div class="container">
-        <header class="header">
-            <h1 class="logo">🔗 LinkBio</h1>
-            <p class="tagline">Create your fully customizable link in bio page</p>
-        </header>
+    <div class="editor-layout">
+        <!-- Left Sidebar: Templates & Elements -->
+        <aside class="sidebar" id="sidebar">
+            <div class="sidebar-header">
+                <h1 class="logo">🔗 LinkBio</h1>
+            </div>
 
-        <main class="main-content">
-            <!-- Editor Card -->
-            <div class="editor-card glass-card">
-                <form id="bioForm">
-                    <!-- Tab Navigation -->
-                    <div class="tab-nav">
-                        <button type="button" class="tab-btn active" data-tab="profile">
-                            <span>👤</span> Profile
-                        </button>
-                        <button type="button" class="tab-btn" data-tab="links">
-                            <span>🔗</span> Links
-                        </button>
-                        <button type="button" class="tab-btn" data-tab="style">
-                            <span>🎨</span> Style
-                        </button>
-                    </div>
-
-                    <!-- Profile Tab -->
-                    <div class="tab-content active" id="tab-profile">
-                        <!-- Username Section -->
-                        <div class="form-section">
-                            <label class="form-label" for="username">
-                                <span class="label-icon">@</span>
-                                Username
-                            </label>
-                            <div class="username-input-wrapper">
-                                <span class="url-prefix">yoursite.com/@</span>
-                                <input type="text" id="username" name="username" placeholder="yourname"
-                                    pattern="[a-zA-Z0-9_\-]+" required autocomplete="off">
-                            </div>
-                        </div>
-
-                        <!-- Profile Image -->
-                        <div class="form-section">
-                            <label class="form-label" for="profileImage">
-                                <span class="label-icon">📷</span>
-                                Profile Image URL
-                            </label>
-                            <input type="url" id="profileImage" name="profileImage"
-                                placeholder="https://example.com/your-photo.jpg" class="text-input">
-                            <p class="field-hint">Leave empty to use initial avatar</p>
-                        </div>
-
-                        <!-- Display Name -->
-                        <div class="form-section">
-                            <label class="form-label" for="displayName">
-                                <span class="label-icon">✨</span>
-                                Display Name
-                            </label>
-                            <input type="text" id="displayName" name="displayName" placeholder="Your Name"
-                                class="text-input" required>
-                        </div>
-
-                        <!-- Bio -->
-                        <div class="form-section">
-                            <label class="form-label" for="bio">
-                                <span class="label-icon">📝</span>
-                                Bio
-                            </label>
-                            <textarea id="bio" name="bio" placeholder="A short description about yourself..."
-                                class="text-input textarea" rows="2"></textarea>
-                        </div>
-                    </div>
-
-                    <!-- Links Tab -->
-                    <div class="tab-content" id="tab-links">
-                        <div class="form-section">
-                            <label class="form-label">
-                                <span class="label-icon">🔗</span>
-                                Your Links
-                            </label>
-                            <div id="linksContainer" class="links-container">
-                                <!-- Links will be added here dynamically -->
-                            </div>
-                            <button type="button" id="addLinkBtn" class="add-link-btn">
-                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                                    stroke-width="2">
-                                    <line x1="12" y1="5" x2="12" y2="19"></line>
-                                    <line x1="5" y1="12" x2="19" y2="12"></line>
-                                </svg>
-                                Add Link
-                            </button>
-                        </div>
-                    </div>
-
-                    <!-- Style Tab -->
-                    <div class="tab-content" id="tab-style">
-                        <!-- Theme Presets -->
-                        <div class="form-section">
-                            <label class="form-label">
-                                <span class="label-icon">🎭</span>
-                                Theme Presets
-                            </label>
-                            <div class="theme-presets" id="themePresets">
-                                <button type="button" class="theme-btn active" data-theme="midnight"
-                                    style="background: linear-gradient(135deg, #0a0a0f 0%, #1a1a2e 100%);">
-                                    <span class="theme-check">✓</span>
-                                </button>
-                                <button type="button" class="theme-btn" data-theme="ocean"
-                                    style="background: linear-gradient(135deg, #0077b6 0%, #00b4d8 100%);">
-                                    <span class="theme-check">✓</span>
-                                </button>
-                                <button type="button" class="theme-btn" data-theme="sunset"
-                                    style="background: linear-gradient(135deg, #f72585 0%, #ffd166 100%);">
-                                    <span class="theme-check">✓</span>
-                                </button>
-                                <button type="button" class="theme-btn" data-theme="forest"
-                                    style="background: linear-gradient(135deg, #2d6a4f 0%, #95d5b2 100%);">
-                                    <span class="theme-check">✓</span>
-                                </button>
-                                <button type="button" class="theme-btn" data-theme="lavender"
-                                    style="background: linear-gradient(135deg, #7b2cbf 0%, #c77dff 100%);">
-                                    <span class="theme-check">✓</span>
-                                </button>
-                                <button type="button" class="theme-btn" data-theme="minimal"
-                                    style="background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);">
-                                    <span class="theme-check" style="color:#333">✓</span>
-                                </button>
-                            </div>
-                        </div>
-
-                        <!-- Custom Background -->
-                        <div class="form-section">
-                            <label class="form-label">
-                                <span class="label-icon">🖼️</span>
-                                Custom Background
-                            </label>
-                            <div class="bg-options">
-                                <div class="bg-option">
-                                    <label class="radio-label">
-                                        <input type="radio" name="bgType" value="theme" checked>
-                                        <span>Use Theme</span>
-                                    </label>
-                                </div>
-                                <div class="bg-option">
-                                    <label class="radio-label">
-                                        <input type="radio" name="bgType" value="solid">
-                                        <span>Solid Color</span>
-                                    </label>
-                                    <input type="color" id="bgColor" value="#1a1a2e" class="color-input">
-                                </div>
-                                <div class="bg-option">
-                                    <label class="radio-label">
-                                        <input type="radio" name="bgType" value="image">
-                                        <span>Image URL</span>
-                                    </label>
-                                    <input type="url" id="bgImage" placeholder="https://..." class="text-input small">
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- Text Alignment -->
-                        <div class="form-section">
-                            <label class="form-label">
-                                <span class="label-icon">↔️</span>
-                                Text Alignment
-                            </label>
-                            <div class="alignment-options">
-                                <button type="button" class="align-btn" data-align="left">
-                                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                                        stroke-width="2">
-                                        <line x1="3" y1="6" x2="21" y2="6"></line>
-                                        <line x1="3" y1="12" x2="15" y2="12"></line>
-                                        <line x1="3" y1="18" x2="18" y2="18"></line>
-                                    </svg>
-                                </button>
-                                <button type="button" class="align-btn active" data-align="center">
-                                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                                        stroke-width="2">
-                                        <line x1="3" y1="6" x2="21" y2="6"></line>
-                                        <line x1="6" y1="12" x2="18" y2="12"></line>
-                                        <line x1="4" y1="18" x2="20" y2="18"></line>
-                                    </svg>
-                                </button>
-                                <button type="button" class="align-btn" data-align="right">
-                                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                                        stroke-width="2">
-                                        <line x1="3" y1="6" x2="21" y2="6"></line>
-                                        <line x1="9" y1="12" x2="21" y2="12"></line>
-                                        <line x1="6" y1="18" x2="21" y2="18"></line>
-                                    </svg>
-                                </button>
-                            </div>
-                        </div>
-
-                        <!-- Button Style -->
-                        <div class="form-section">
-                            <label class="form-label">
-                                <span class="label-icon">🔘</span>
-                                Button Style
-                            </label>
-                            <div class="button-style-options">
-                                <button type="button" class="style-btn active" data-style="rounded">
-                                    <div class="style-preview rounded">Rounded</div>
-                                </button>
-                                <button type="button" class="style-btn" data-style="pill">
-                                    <div class="style-preview pill">Pill</div>
-                                </button>
-                                <button type="button" class="style-btn" data-style="square">
-                                    <div class="style-preview square">Square</div>
-                                </button>
-                                <button type="button" class="style-btn" data-style="outline">
-                                    <div class="style-preview outline">Outline</div>
-                                </button>
-                            </div>
-                        </div>
-
-                        <!-- Button Color -->
-                        <div class="form-section">
-                            <label class="form-label">
-                                <span class="label-icon">🎨</span>
-                                Button Color
-                            </label>
-                            <div class="color-options">
-                                <input type="color" id="buttonColor" value="#8b5cf6" class="color-input large">
-                                <span class="color-value" id="buttonColorValue">#8b5cf6</span>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Submit Button (always visible) -->
-                    <button type="submit" class="submit-btn" id="submitBtn">
-                        <span class="btn-text">Create My Page</span>
-                        <span class="btn-loader" style="display: none;">
-                            <svg class="spinner" viewBox="0 0 24 24">
-                                <circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="3" fill="none"
-                                    stroke-dasharray="30 70"></circle>
-                            </svg>
-                        </span>
+            <!-- Templates Section -->
+            <div class="sidebar-section">
+                <h3 class="section-title">Templates</h3>
+                <div class="templates-grid" id="templatesGrid">
+                    <button class="template-card" data-template="classic">
+                        <div class="template-preview classic-preview"></div>
+                        <span>Classic</span>
                     </button>
-                </form>
-
-                <!-- Success Message -->
-                <div id="successMessage" class="success-message" style="display: none;">
-                    <div class="success-icon">🎉</div>
-                    <h2>Your page is live!</h2>
-                    <div class="success-url-wrapper">
-                        <input type="text" id="successUrl" class="success-url" readonly>
-                        <button id="copyBtn" class="copy-btn">
-                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                                stroke-width="2">
-                                <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
-                                <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
-                            </svg>
-                        </button>
-                    </div>
-                    <a id="visitBtn" href="#" class="visit-btn" target="_blank">Visit Your Page →</a>
-                    <button id="createAnotherBtn" class="create-another-btn">Create Another</button>
+                    <button class="template-card" data-template="minimal">
+                        <div class="template-preview minimal-preview"></div>
+                        <span>Minimal</span>
+                    </button>
+                    <button class="template-card" data-template="bold">
+                        <div class="template-preview bold-preview"></div>
+                        <span>Bold</span>
+                    </button>
+                    <button class="template-card" data-template="social">
+                        <div class="template-preview social-preview"></div>
+                        <span>Social</span>
+                    </button>
                 </div>
             </div>
 
-            <!-- Preview Section -->
-            <div class="preview-section">
-                <h3 class="preview-title">Live Preview</h3>
-                <div class="phone-frame">
-                    <div class="phone-notch"></div>
-                    <div class="preview-content" id="previewContent">
-                        <div class="preview-avatar" id="previewAvatar">?</div>
-                        <h2 class="preview-name" id="previewName">Your Name</h2>
-                        <p class="preview-bio" id="previewBio">Your bio will appear here</p>
-                        <div class="preview-links" id="previewLinks">
-                            <div class="preview-link placeholder">Your links will appear here</div>
-                        </div>
-                    </div>
+            <!-- Elements Section -->
+            <div class="sidebar-section">
+                <h3 class="section-title">Add Elements</h3>
+                <div class="elements-list">
+                    <button class="element-btn" data-type="image">
+                        <span class="element-icon">🖼️</span>
+                        <span>Image</span>
+                    </button>
+                    <button class="element-btn" data-type="text">
+                        <span class="element-icon">T</span>
+                        <span>Text</span>
+                    </button>
+                    <button class="element-btn" data-type="button">
+                        <span class="element-icon">🔗</span>
+                        <span>Button</span>
+                    </button>
+                    <button class="element-btn" data-type="social">
+                        <span class="element-icon">📱</span>
+                        <span>Social</span>
+                    </button>
+                    <button class="element-btn" data-type="divider">
+                        <span class="element-icon">—</span>
+                        <span>Divider</span>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Background Section -->
+            <div class="sidebar-section">
+                <h3 class="section-title">Background</h3>
+                <div class="bg-picker">
+                    <input type="color" id="bgColor" value="#0a0a0f" class="color-picker-large">
+                    <input type="url" id="bgImage" placeholder="Image URL..." class="bg-url-input">
+                </div>
+            </div>
+        </aside>
+
+        <!-- Main Canvas Area -->
+        <main class="canvas-container">
+            <div class="canvas-toolbar">
+                <div class="toolbar-left">
+                    <button class="toolbar-btn" id="undoBtn" title="Undo" disabled>
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                            stroke-width="2">
+                            <path d="M3 10h10a5 5 0 0 1 5 5v2" />
+                            <polyline points="3 10 7 6 3 10 7 14" />
+                        </svg>
+                    </button>
+                    <button class="toolbar-btn" id="redoBtn" title="Redo" disabled>
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                            stroke-width="2">
+                            <path d="M21 10H11a5 5 0 0 0-5 5v2" />
+                            <polyline points="21 10 17 6 21 10 17 14" />
+                        </svg>
+                    </button>
+                    <button class="toolbar-btn" id="deleteBtn" title="Delete Selected" disabled>
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                            stroke-width="2">
+                            <polyline points="3 6 5 6 21 6" />
+                            <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2" />
+                        </svg>
+                    </button>
+                </div>
+                <div class="toolbar-center">
+                    <span class="canvas-size">375 × 667</span>
+                </div>
+                <div class="toolbar-right">
+                    <button class="toolbar-btn primary" id="publishBtn">Publish</button>
+                </div>
+            </div>
+
+            <div class="canvas-wrapper">
+                <div class="canvas" id="canvas">
+                    <!-- Elements will be added here -->
                 </div>
             </div>
         </main>
 
-        <footer class="footer">
-            <p>Built with ❤️ • <a href="/">URL Shortener</a> • <a href="/docs.html">Docs</a></p>
-        </footer>
+        <!-- Right Sidebar: Properties Panel -->
+        <aside class="properties-panel" id="propertiesPanel">
+            <div class="properties-header">
+                <h3>Properties</h3>
+                <button class="close-panel-btn" id="closePanelBtn">×</button>
+            </div>
+            <div class="properties-content" id="propertiesContent">
+                <p class="no-selection">Select an element to edit its properties</p>
+            </div>
+        </aside>
     </div>
+
+    <!-- Publish Modal -->
+    <div class="modal-overlay" id="publishModal">
+        <div class="modal">
+            <div class="modal-header">
+                <h2>Publish Your Page</h2>
+                <button class="modal-close" id="closePublishModal">×</button>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <label for="username">Username</label>
+                    <div class="username-input-wrapper">
+                        <span class="url-prefix">@</span>
+                        <input type="text" id="username" placeholder="yourname" pattern="[a-zA-Z0-9_\-]+" required>
+                    </div>
+                </div>
+                <button class="publish-submit-btn" id="submitPublish">
+                    <span class="btn-text">Publish Page</span>
+                    <span class="btn-loader" style="display:none;">Publishing...</span>
+                </button>
+            </div>
+            <div class="publish-success" id="publishSuccess" style="display:none;">
+                <div class="success-icon">🎉</div>
+                <h3>Your page is live!</h3>
+                <div class="success-urls">
+                    <div class="url-group">
+                        <label>Page URL</label>
+                        <div class="url-copy-wrapper">
+                            <input type="text" id="pageUrl" readonly>
+                            <button class="copy-btn" data-copy="pageUrl">Copy</button>
+                        </div>
+                    </div>
+                    <div class="url-group">
+                        <label>Edit URL (save this!)</label>
+                        <div class="url-copy-wrapper">
+                            <input type="text" id="editUrl" readonly>
+                            <button class="copy-btn" data-copy="editUrl">Copy</button>
+                        </div>
+                    </div>
+                </div>
+                <a id="visitPageBtn" href="#" class="visit-page-btn" target="_blank">Visit Your Page →</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Mobile Toggle -->
+    <button class="mobile-sidebar-toggle" id="mobileToggle">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <line x1="3" y1="6" x2="21" y2="6" />
+            <line x1="3" y1="12" x2="21" y2="12" />
+            <line x1="3" y1="18" x2="21" y2="18" />
+        </svg>
+    </button>
 
     <script src="bio-app.js"></script>
 </body>
