@@ -852,3 +852,294 @@ body {
 .sidebar-overlay.open {
     display: block;
 }
+
+/* ============================================
+   Effects & Animations
+   ============================================ */
+
+/* Rainbow Effect */
+@keyframes rainbow {
+    0% {
+        background-position: 0% 50%;
+    }
+
+    100% {
+        background-position: 400% 50%;
+    }
+}
+
+/* Glow Pulse Effect */
+@keyframes glowPulse {
+
+    0%,
+    100% {
+        box-shadow: 0 0 5px currentColor, 0 0 10px currentColor;
+    }
+
+    50% {
+        box-shadow: 0 0 20px currentColor, 0 0 30px currentColor, 0 0 40px currentColor;
+    }
+}
+
+/* Shake Effect */
+@keyframes shake {
+
+    0%,
+    100% {
+        transform: translateX(0);
+    }
+
+    25% {
+        transform: translateX(-5px);
+    }
+
+    75% {
+        transform: translateX(5px);
+    }
+}
+
+/* Bounce Effect */
+@keyframes bounce {
+
+    0%,
+    100% {
+        transform: translateY(0);
+    }
+
+    50% {
+        transform: translateY(-10px);
+    }
+}
+
+/* Gradient Flow Effect */
+@keyframes gradientFlow {
+    0% {
+        background-position: 0% 50%;
+    }
+
+    50% {
+        background-position: 100% 50%;
+    }
+
+    100% {
+        background-position: 0% 50%;
+    }
+}
+
+/* Neon Border Effect */
+@keyframes neonBorder {
+    from {
+        box-shadow: 0 0 5px currentColor, 0 0 10px currentColor, 0 0 15px currentColor;
+    }
+
+    to {
+        box-shadow: 0 0 10px currentColor, 0 0 20px currentColor, 0 0 30px currentColor, 0 0 40px currentColor;
+    }
+}
+
+/* Slide Up Effect */
+@keyframes slideUp {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Scale Pop Effect */
+@keyframes scalePop {
+    0% {
+        transform: scale(0.8);
+        opacity: 0;
+    }
+
+    50% {
+        transform: scale(1.05);
+    }
+
+    100% {
+        transform: scale(1);
+        opacity: 1;
+    }
+}
+
+/* Shimmer Effect */
+@keyframes shimmer {
+    0% {
+        left: -100%;
+    }
+
+    100% {
+        left: 100%;
+    }
+}
+
+.effect-shimmer {
+    position: relative;
+    overflow: hidden;
+}
+
+.effect-shimmer::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+    animation: shimmer 2s infinite;
+}
+
+/* Ripple Effect */
+.effect-ripple {
+    position: relative;
+    overflow: hidden;
+}
+
+.effect-ripple::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 0;
+    height: 0;
+    background: rgba(255, 255, 255, 0.3);
+    border-radius: 50%;
+    transform: translate(-50%, -50%);
+    animation: rippleEffect 1.5s ease-out infinite;
+}
+
+@keyframes rippleEffect {
+    0% {
+        width: 0;
+        height: 0;
+        opacity: 0.5;
+    }
+
+    100% {
+        width: 200%;
+        height: 200%;
+        opacity: 0;
+    }
+}
+
+/* Color Fade Effect */
+@keyframes colorFade {
+
+    0%,
+    100% {
+        filter: hue-rotate(0deg);
+    }
+
+    50% {
+        filter: hue-rotate(180deg);
+    }
+}
+
+/* ============================================
+   New Element Styles
+   ============================================ */
+
+/* Heading Element */
+.element-heading {
+    font-weight: 700;
+    padding: 8px;
+    line-height: 1.2;
+}
+
+/* Spacer Element */
+.element-spacer {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(255, 255, 255, 0.02);
+    border: 1px dashed rgba(255, 255, 255, 0.15);
+    border-radius: 4px;
+}
+
+.spacer-indicator {
+    color: var(--text-muted);
+    font-size: 0.75rem;
+    opacity: 0.5;
+}
+
+/* Container Element */
+.element-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.container-placeholder {
+    color: var(--text-muted);
+    font-size: 0.75rem;
+    opacity: 0.5;
+}
+
+/* Embed Element */
+.element-embed {
+    border-radius: 8px;
+    overflow: hidden;
+    background: rgba(0, 0, 0, 0.3);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.element-embed iframe {
+    pointer-events: none;
+}
+
+.embed-placeholder {
+    color: var(--text-muted);
+    font-size: 0.875rem;
+    padding: 2rem;
+}
+
+/* Icon Button Element */
+.element-iconButton {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    transition: transform 0.2s, background 0.2s;
+    color: white;
+}
+
+.element-iconButton:hover {
+    transform: scale(1.1);
+}
+
+.element-iconButton svg {
+    width: 24px;
+    height: 24px;
+    fill: currentColor;
+}
+
+/* Social element SVG styling */
+.element-social {
+    color: white;
+}
+
+.element-social svg {
+    width: 24px;
+    height: 24px;
+    fill: currentColor;
+}
+
+/* Social Grid SVG styling for properties panel */
+.social-grid .social-option {
+    color: var(--text-primary);
+}
+
+.social-grid .social-option svg {
+    width: 18px;
+    height: 18px;
+    fill: currentColor;
+}
